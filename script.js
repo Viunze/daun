@@ -1,81 +1,205 @@
-// Memastikan semua elemen dimuat sebelum menjalankan skrip
-document.addEventListener('DOMContentLoaded', () => {
+class LeafAnimation {
+    constructor() {
+        this.container = document.getElementById('leavesContainer');
+        this.leafImages = [
+            'https://files.catbox.moe/gqonev.png',
+            'https://files.catbox.moe/2x4ex7.jpg',
+            'https://files.catbox.moe/vr8b3m.jpg',
+            'https://files.catbox.moe/kaaasq.png'
+        ];
+        
+        this.leafSettings = [
+            { type: 1, size: { min: 40, max: 80 }, duration: { min: 14, max: 18 }, delay: 0 },
+            { type: 2, size: { min: 50, max: 90 }, duration: { min: 16, max: 20 }, delay: 2 },
+            { type: 3, size: { min: 45, max: 85 }, duration: { min: 15, max: 19 }, delay: 1 },
+            { type: 1, size: { min: 35, max: 70 }, duration: { min: 13, max: 17 }, delay: 3 }
+        ];
 
-    // Membuat Timeline GSAP. Timeline memungkinkan kita mengurutkan animasi
-    // dan mengatur timing antar animasi agar terlihat terkoordinasi.
-    const tl = gsap.timeline({
-        defaults: {
-            duration: 1.5, // Durasi default untuk setiap animasi
-            ease: "power2.out", // Easing yang lebih halus, memberikan nuansa premium
-            stagger: 0.3 // Penundaan halus antar objek, jika berlaku
-        },
-        repeat: 0 // Tidak mengulang
-    });
+        this.isRunning = true;
+        this.init();
+    }
 
-    // --- Animasi Premium Daun ---
+    init() {
+        // Spawn daun secara berkelanjutan
+        this.spawnContinuously();
+        
+        // Handle visibility change
+        document.addEventListener('visibilitychange', () => {
+            this.isRunning = !document.hidden;
+        });
+    }
 
-    // 1. Animasi Daun 1: Jatuh perlahan dengan sedikit goyangan
-    tl.from("#leaf1", {
-        y: -150, // Mulai 150px dari atas
-        rotation: -45, // Rotasi awal
-        opacity: 0,
-        duration: 2, // Durasi lebih lama untuk kesan jatuh pelan
-        delay: 0.5 // Mulai setelah jeda singkat
-    })
-    .to("#leaf1", {
-        rotation: 45, // Goyangan halus
-        yoyo: true, // Kembali ke posisi awal rotasi
-        repeat: -1, // Goyangan tak terbatas setelah masuk
-        duration: 5,
-        ease: "none" // Gerakan goyang yang konstan
-    }, "<0.5") // Mulai goyangan sedikit setelah masuk
-
-    // 2. Animasi Daun 2: Muncul dari samping dengan putaran cepat
-    // '<' berarti animasi ini dimulai bersamaan dengan animasi sebelumnya (atau setelah yang sebelumnya berakhir, tergantung konteks)
-    // '+0.2' berarti memulai 0.2 detik setelah animasi sebelumnya berakhir (lebih tepatnya, setelah titik penambahan timeline terakhir)
-    tl.from("#leaf2", {
-        x: 100, // Mulai 100px dari kanan
-        scale: 0.5, // Ukuran kecil
-        rotation: 360, // Rotasi penuh
-        opacity: 0,
-        duration: 1.2,
-    }, "<0.3") // Mulai sedikit lebih cepat daripada Daun 1 selesai
-
-    // 3. Animasi Daun 3: Zoom-in dan Fade-in halus
-    tl.from("#leaf3", {
-        scale: 0, // Mulai dari ukuran nol
-        opacity: 0,
-        duration: 1.8,
-        ease: "back.out(1.7)" // Easing 'back' memberikan efek pantulan premium
-    }, "<0.5") // Mulai sebelum Daun 2 selesai untuk kesan 'simultan'
-
-    // --- Animasi Teks/CTA ---
-
-    // Animasi Headline
-    tl.from("h1", {
-        y: 20,
-        opacity: 0,
-        duration: 1
-    }, "<0.8") // Hampir bersamaan dengan Daun 3
-
-    // Animasi Paragraf dan Tombol CTA
-    tl.from([".content-area p", ".cta-button"], {
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2 // Teks dan tombol muncul bergantian
-    }, "<0.5"); // Setelah headline
-
-    // Opsional: Animasi Parallax kecil saat scroll (jika ingin lebih canggih,
-    // memerlukan GSAP ScrollTrigger, tapi ini dasar saja)
-    gsap.to(".hero-section", {
-        y: -50,
-        scrollTrigger: {
-            trigger: "body",
-            start: "top top",
-            end: "bottom top",
-            scrub: true
+    spawnContinuously() {
+        if (!this.isRunning) {
+            requestAnimationFrame(() => this.spawnContinuously());
+            return;
         }
-    });
 
+        const randomSetting = this.leafSettings[Math.floor(Math.random() * this.leafSettings.length)];
+        this.createLeaf(randomSetting);
+
+        // Spawn interval yang natural (2-4 detik)
+        const spawnDelay = Math.random() * 2000 + 2000;
+        setTimeout(() => this.spawnContinuously(), spawnDelay);
+    }
+
+    createLeaf(settings) {
+        const leaf = document.createElement('div');
+        leaf.className = `leaf leaf-${settings.type}`;
+        
+        // Random size
+        const size = Math.random() * (settings.size.max - settings.size.min) + settings.size.min;
+        leaf.style.width = size + 'px';
+        leaf.style.height = size + 'px';
+
+        // Random X position
+        const startX = Math.random() * window.innerWidth;
+        leaf.style.left = startX + 'px';
+        leaf.style.top = '-100px';
+
+        // Random image daun
+        const imageIndex = Math.floor(Math.random() * this.leafImages.length);
+        leaf.style.backgroundImage = `url('${this.leafImages[imageIndex]}')`;
+
+        // Random opacity (untuk variasi)
+        const opacity = Math.random() * 0.3 + 0.7;
+        leaf.style.opacity = opacity;
+
+        // Random duration
+        const duration = Math.random() * (settings.duration.max - settings.duration.min) + settings.duration.min;
+        leaf.style.animationDuration = duration + 's';
+        leaf.style.animationDelay = settings.delay + 's';
+
+        // Random horizontal drift
+        const drift = Math.random() * 200 - 100;
+        const horizontalWave = this.getWaveAnimation(drift, duration);
+        leaf.style.setProperty('--drift-x', drift + 'px');
+
+        this.container.appendChild(leaf);
+
+        // Hapus leaf setelah animasi selesai
+        setTimeout(() => {
+            leaf.remove();
+        }, (duration + settings.delay) * 1000);
+    }
+
+    getWaveAnimation(drift, duration) {
+        // Menambahkan wave effect yang natural
+        return `translateX(${drift}px)`;
+    }
+}
+
+// Tambahan: Animasi wave dengan JavaScript untuk efek yang lebih smooth
+class WaveController {
+    constructor(leaf, drift, duration) {
+        this.leaf = leaf;
+        this.drift = drift;
+        this.duration = duration;
+        this.startTime = Date.now();
+        this.animate();
+    }
+
+    animate() {
+        const elapsed = Date.now() - this.startTime;
+        const progress = (elapsed / (this.duration * 1000)) % 1;
+
+        // Sine wave untuk horizontal movement
+        const waveX = Math.sin(progress * Math.PI * 4) * 30;
+        const offsetX = this.drift * progress;
+
+        // Smooth easing untuk vertical movement (akan di-override oleh CSS)
+        if (this.leaf.parentElement) {
+            this.leaf.style.transform = `translateX(${offsetX + waveX}px)`;
+            requestAnimationFrame(() => this.animate());
+        }
+    }
+}
+
+// Enhanced CSS dengan wave effect
+const addWaveEffects = () => {
+    const style = document.createElement('style');
+    style.textContent = `
+        .leaf {
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        .leaf:nth-child(odd) {
+            animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .leaf:nth-child(even) {
+            animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+        }
+
+        @keyframes fallRotate1 {
+            0% {
+                transform: translateY(-100px) translateX(0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            3% {
+                opacity: 1;
+            }
+            97% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(var(--drift-x, 0px)) rotate(720deg) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fallRotate2 {
+            0% {
+                transform: translateY(-100px) translateX(0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            3% {
+                opacity: 1;
+            }
+            97% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(calc(var(--drift-x, 0px) * -1)) rotate(-720deg) scale(0.85);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fallRotate3 {
+            0% {
+                transform: translateY(-100px) translateX(0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            3% {
+                opacity: 1;
+            }
+            97% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(var(--drift-x, 0px)) rotate(540deg) scale(0.9);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+};
+
+// Inisialisasi
+addWaveEffects();
+
+// Start animasi
+window.addEventListener('load', () => {
+    new LeafAnimation();
 });
+
+// Handle jika JavaScript dijalankan sebelum window.load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        new LeafAnimation();
+    });
+} else {
+    new LeafAnimation();
+}
