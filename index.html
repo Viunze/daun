@@ -3,29 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Leaf Animation Ad</title>
+    <title>Animasi Daun Premium</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body>
-
-    <header class="hero-section">
-        <h1>Produk Alami Premium</h1>
-        <p>Sentuhan kemurnian dari alam, dipersembahkan untuk Anda.</p>
-    </header>
-
-    <div class="animation-container">
-        <img id="leaf1" class="leaf" src="https://files.catbox.moe/gqonev.png" alt="Daun Hijau 1">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="background-overlay"></div>
         
-        <img id="leaf2" class="leaf" src="https://files.catbox.moe/2x4ex7.jpg" alt="Daun Hijau 2">
-        
-        <img id="leaf3" class="leaf" src="https://files.catbox.moe/kaaasq.png" alt="Daun Hijau 3">
+        <div class="hero-content">
+            <h1 class="title">Keindahan Alam Menginspirasi</h1>
+            <p class="subtitle">Rasakan kesegaran dari setiap hembusan angin dan energi positif alam</p>
+            <button class="cta-button">Jelajahi Sekarang</button>
+        </div>
+
+        <div class="leaves-container" id="leavesContainer"></div>
     </div>
 
-    <section class="content-area">
-        <p>Rasakan perbedaan yang dibawa oleh bahan-bahan terbaik dari alam.</p>
-        <button class="cta-button">Jelajahi Sekarang</button>
+    <!-- Manfaat Section -->
+    <section class="benefits-section">
+        <div class="section-container">
+            <h2 class="section-title">Manfaat Kesegaran Alam</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌿</div>
+                    <h3>Kesehatan Mental</h3>
+                    <p>Koneksi dengan alam terbukti mengurangi stres dan meningkatkan kesejahteraan mental hingga 40%</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">💚</div>
+                    <h3>Kesehatan Fisik</h3>
+                    <p>Produk alami kami memperkuat sistem imun dan meningkatkan vitalitas tubuh secara optimal</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌱</div>
+                    <h3>100% Organik</h3>
+                    <p>Tanpa bahan kimia berbahaya, diproduksi langsung dari alam dengan standar internasional</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">✨</div>
+                    <h3>Energi Positif</h3>
+                    <p>Rasakan transformasi hidup dengan energi positif yang berkelanjutan dari produk berkualitas tinggi</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌍</div>
+                    <h3>Ramah Lingkungan</h3>
+                    <p>Setiap pembelian berkontribusi pada program reboisasi dan pelestarian alam</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">⭐</div>
+                    <h3>Kualitas Premium</h3>
+                    <p>Dipilih dengan cermat dan diuji secara klinis untuk hasil maksimal dan aman</p>
+                </div>
+            </div>
+        </div>
     </section>
+
+    <!-- Tentang Produk Section -->
+    <section class="about-section">
+        <div class="section-container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Tentang Produk Kami</h2>
+                    <p>Kami berkomitmen menghadirkan produk natural terbaik yang bersumber langsung dari alam bebas. Setiap produk melalui proses quality control ketat untuk memastikan kemurnian dan kualitas tertinggi.</p>
+                    <p>Dengan pengalaman lebih dari 20 tahun, kami telah mempercayai ribuan pelanggan di seluruh dunia. Kesegaran alam yang kami tawarkan bukan hanya sekadar produk, tetapi gaya hidup sehat yang berkelanjutan.</p>
+                    <ul class="features-list">
+                        <li>✓ Sertifikasi Internasional</li>
+                        <li>✓ Garansi Kepuasan 100%</li>
+                        <li>✓ Pengiriman Gratis se-Indonesia</li>
+                        <li>✓ Dukungan Pelanggan 24/7</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <div class="image-placeholder">
+                        <p>Gambar Produk Premium</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimoni Section -->
+    <section class="testimonial-section">
+        <div class="section-container">
+            <h2 class="section-title">Apa Kata Pelanggan Kami</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Produk ini benar-benar mengubah hidup saya. Saya merasa lebih energik dan sehat setiap harinya!"</p>
+                    <p class="testimonial-author">- Siti Nurhaliza, Jakarta</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Kualitasnya luar biasa premium. Rasanya alami dan tidak ada efek samping sama sekali."</p>
+                    <p class="testimonial-author">- Budi Santoso, Surabaya</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Saya sudah merekomendasikan ke seluruh keluarga. Investasi terbaik untuk kesehatan!"</p>
+                    <p class="testimonial-author">- Maria Wijaya, Bandung</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+        <div class="section-container">
+            <h2>Mulai Hidup Sehat Hari Ini</h2>
+            <p>Bergabunglah dengan ribuan pelanggan puas yang telah merasakan manfaatnya</p>
+            <button class="cta-button-large">Pesan Sekarang - Dapatkan Diskon 30%</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="section-container">
+            <p>&copy; 2025 Keindahan Alam Premium. Semua hak dilindungi. | Diproduksi dengan cinta untuk kesehatan Anda</p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
